@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.template.MainController">
+    <children>
+        <Pane prefHeight="401.0" prefWidth="600.0" style="-fx-background-color: green; -fx-border-color: #32612D; -fx-border-width: 5;">
+            <children>
+                <Button fx:id="btnSalvar" layoutX="454.0" layoutY="309.0" mnemonicParsing="false" onAction="#btnSalvarAction" prefHeight="45.0" prefWidth="128.0" style="-fx-background-color: #1034A6; -fx-border-color: #000080; -fx-border-width: 3;" text="Salvar" textFill="WHITE">
+                    <font>
+                        <Font name="Arial Bold" size="15.0" />
+                    </font></Button>
+                <Button fx:id="btnAdicionar" layoutX="312.0" layoutY="253.0" mnemonicParsing="false" onAction="#btnAdicionarAction" prefHeight="45.0" prefWidth="128.0" style="-fx-background-color: #1034A6; -fx-border-color: #000080; -fx-border-width: 3;" text="Adicionar" textFill="WHITE">
+                    <font>
+                        <Font name="Arial Bold" size="15.0" />
+                    </font></Button>
+                <Button fx:id="btnExcluir" layoutX="454.0" layoutY="253.0" mnemonicParsing="false" onAction="#btnExcluirAction" prefHeight="45.0" prefWidth="128.0" style="-fx-background-color: #1034A6; -fx-border-color: #000080; -fx-border-width: 3;" text="Excluir" textFill="WHITE">
+                    <font>
+                        <Font name="Arial Bold" size="15.0" />
+                    </font></Button>
+                <Button fx:id="btnEditar" layoutX="312.0" layoutY="309.0" mnemonicParsing="false" onAction="#btnEditarAction" prefHeight="45.0" prefWidth="128.0" style="-fx-background-color: #1034A6; -fx-border-color: #000080; -fx-border-width: 3;" text="Editar" textFill="WHITE">
+                    <font>
+                        <Font name="Arial Bold" size="15.0" />
+                    </font></Button>
+                <TextField fx:id="txtId" layoutX="134.0" layoutY="235.0" />
+                <Label fx:id="lblId" layoutX="19.0" layoutY="239.0" prefHeight="17.0" text="ID" textFill="WHITE">
+                    <font>
+                        <Font name="Arial Bold" size="15.0" />
+                    </font></Label>
+                <TableView fx:id="tblTimes" layoutX="19.0" layoutY="14.0" onMouseClicked="#carregarCampos" prefHeight="206.0" prefWidth="563.0" style="-fx-background-color: yellow; -fx-font-size: 15;">
+                    <columns>
+                        <TableColumn fx:id="colId" prefWidth="75.0" style="-fx-background-color: #FFD700; -fx-font-size: 15;" text="ID" />
+                        <TableColumn fx:id="colNome" prefWidth="113.0" style="-fx-background-color: #FFD700; -fx-font-size: 15;" text="Nome" />
+                        <TableColumn fx:id="colFund" prefWidth="116.0" style="-fx-background-color: #FFD700; -fx-font-size: 15;" text="Ano de Fund" />
+                        <TableColumn fx:id="colEstado" minWidth="2.0" prefWidth="121.0" style="-fx-background-color: #FFD700; -fx-font-size: 15;" text="Estado" />
+                        <TableColumn fx:id="colBrasileiros" prefWidth="137.0" style="-fx-background-color: #FFD700; -fx-font-size: 15;" text="Brasileiros" />
+                    </columns>
+                </TableView>
+                <TextField fx:id="txtNome" layoutX="134.0" layoutY="263.0" />
+                <Label fx:id="lblNome" layoutX="19.0" layoutY="267.0" prefHeight="17.0" text="Nome" textFill="WHITE">
+                    <font>
+                        <Font name="Arial Bold" size="15.0" />
+                    </font></Label>
+                <TextField fx:id="txtFund" layoutX="134.0" layoutY="291.0" />
+                <Label fx:id="lblFund" layoutX="19.0" layoutY="295.0" prefHeight="17.0" text="Ano de Fund" textFill="WHITE">
+                    <font>
+                        <Font name="Arial Bold" size="15.0" />
+                    </font></Label>
+                <TextField fx:id="txtEstado" layoutX="134.0" layoutY="319.0" />
+                <Label fx:id="lblEstado" layoutX="19.0" layoutY="323.0" prefHeight="17.0" text="Estado" textFill="WHITE">
+                    <font>
+                        <Font name="Arial Bold" size="15.0" />
+                    </font></Label>
+                <Label fx:id="lblBrasileiros" layoutX="19.0" layoutY="351.0" prefHeight="17.0" text="Brasileiros" textFill="WHITE">
+                    <font>
+                        <Font name="Arial Bold" size="15.0" />
+                    </font></Label>
+                <TextField fx:id="txtBrasileiros" layoutX="134.0" layoutY="347.0" />
+            </children>
+        </Pane>
+    </children>
+</AnchorPane>
