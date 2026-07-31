@@ -1,5 +1,7 @@
-package com.template;
+package com.template.controller;
 
+import com.template.model.dao.TimesDAO;
+import com.template.model.dto.TimesDTO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -12,6 +14,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import java.util.ArrayList;
+
+import static com.template.util.DialogUtil.showConfirmation;
 
 public class MainController
 {
@@ -49,8 +53,8 @@ public class MainController
     }
 
     private void atualizarTabela() {
-        TimesDAO objtimesdao = new TimesDAO();
-        ArrayList<TimesDTO> listaTimes = objtimesdao.listarTimes();
+        TimesDAO listaDeTimesAgrupada = new TimesDAO();
+        ArrayList<TimesDTO> listaTimes = listaDeTimesAgrupada.listarTimes();
 
         ListaParaFiltrar.setAll(listaTimes);
         tblTimes.setItems(ListaParaFiltrar);
@@ -58,14 +62,14 @@ public class MainController
 
     @FXML
     private void carregarCampos(MouseEvent event) {
-        TimesDTO objtimesdto = tblTimes.getSelectionModel().getSelectedItem();
+        TimesDTO linhaTime = tblTimes.getSelectionModel().getSelectedItem();
 
-        if (objtimesdto != null) {
-            txtId.setText(String.valueOf(objtimesdto.getId()));
-            txtNome.setText(objtimesdto.getNome());
-            txtFund.setText(String.valueOf(objtimesdto.getAnoFundacao()));
-            txtEstado.setText(objtimesdto.getEstado());
-            txtBrasileiros.setText(String.valueOf(objtimesdto.getTitulosBrasileiros()));
+        if (linhaTime != null) {
+            txtId.setText(String.valueOf(linhaTime.getId()));
+            txtNome.setText(linhaTime.getNome());
+            txtFund.setText(String.valueOf(linhaTime.getAnoFundacao()));
+            txtEstado.setText(linhaTime.getEstado());
+            txtBrasileiros.setText(String.valueOf(linhaTime.getTitulosBrasileiros()));
             gerenciarBotoes(true);
         }
     }
@@ -77,14 +81,14 @@ public class MainController
         int anoFund = Integer.parseInt(txtFund.getText());
         int brasileiros = Integer.parseInt(txtBrasileiros.getText());
 
-        TimesDTO objtimesdto = new TimesDTO();
-        objtimesdto.setNome(nome);
-        objtimesdto.setAnoFundacao(anoFund);
-        objtimesdto.setEstado(estado);
-        objtimesdto.setTitulosBrasileiros(brasileiros);
+        TimesDTO linhaTime = new TimesDTO();
+        linhaTime.setNome(nome);
+        linhaTime.setAnoFundacao(anoFund);
+        linhaTime.setEstado(estado);
+        linhaTime.setTitulosBrasileiros(brasileiros);
 
-        TimesDAO objtimesdao = new TimesDAO();
-        objtimesdao.cadastrarTime(objtimesdto);
+        TimesDAO timeNovo = new TimesDAO();
+        timeNovo.cadastrarTime(linhaTime);
 
         atualizarTabela();
         limparCampos();
@@ -98,15 +102,15 @@ public class MainController
         String nome = txtNome.getText();
         String estado = txtEstado.getText();
 
-        TimesDTO objtimesdto = new TimesDTO();
-        objtimesdto.setId(id);
-        objtimesdto.setNome(nome);
-        objtimesdto.setAnoFundacao(anoFund);
-        objtimesdto.setEstado(estado);
-        objtimesdto.setTitulosBrasileiros(brasileiros);
+        TimesDTO linhaTime = new TimesDTO();
+        linhaTime.setId(id);
+        linhaTime.setNome(nome);
+        linhaTime.setAnoFundacao(anoFund);
+        linhaTime.setEstado(estado);
+        linhaTime.setTitulosBrasileiros(brasileiros);
 
-        TimesDAO objtimesdao = new TimesDAO();
-        objtimesdao.alterarTime(objtimesdto);
+        TimesDAO timeEditado = new TimesDAO();
+        timeEditado.alterarTime(linhaTime);
 
         atualizarTabela();
         limparCampos();
@@ -116,19 +120,22 @@ public class MainController
     private void btnExcluirAction(ActionEvent event) {
         int id = Integer.parseInt(txtId.getText());
 
-        TimesDAO objtimesdao = new TimesDAO();
-        objtimesdao.excluirTime(id);
+        TimesDAO timeExcluir = new TimesDAO();
+        timeExcluir.excluirTime(id);
 
-        atualizarTabela();
-        limparCampos();
+        if(showConfirmation("Você realmente deseja excluir?")){
+            atualizarTabela();
+            limparCampos();
+        }
+        else{
+            return;
+        }
     }
 
     @FXML
     private void btnPesquisarAction(ActionEvent event) {
         FilteredList<TimesDTO> listaFiltrada = new FilteredList<>(ListaParaFiltrar, p -> true);
-
         listaFiltrada.setPredicate(time -> {
-
             if (!txtId.getText().isEmpty()) {
                 String filtroId = txtId.getText().trim();
                 if (!String.valueOf(time.getId()).contains(filtroId)) {
@@ -137,7 +144,6 @@ public class MainController
             }
             return true;
         });
-
         tblTimes.setItems(listaFiltrada);
     }
 
@@ -153,7 +159,6 @@ public class MainController
     }
 
     private void gerenciarBotoes(boolean itemSelecionado) {
-        btnAdicionar.setDisable(itemSelecionado);
         btnEditar.setDisable(!itemSelecionado);
         btnExcluir.setDisable(!itemSelecionado);
     }

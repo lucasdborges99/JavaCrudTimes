@@ -11,11 +11,11 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.template.MainController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.template.controller.MainController">
     <children>
         <Pane prefHeight="458.0" prefWidth="907.0" style="-fx-background-color: #414A4C; -fx-border-color: #2A3439; -fx-border-width: 5;">
             <children>
-                <Button fx:id="btnPesquisar" layoutX="455.0" layoutY="366.0" mnemonicParsing="false" onAction="#btnPesquisarAction" prefHeight="54.0" prefWidth="128.0" style="-fx-background-color: #007FFF; -fx-border-color: #1034A6; -fx-border-width: 3; -fx-background-radius: 6; -fx-border-radius: 6; -fx-background-insets: 1,5;" text="Pesquisar ID" textFill="WHITE">
+                <Button fx:id="btnPesquisar" layoutX="455.0" layoutY="366.0" mnemonicParsing="false" onAction="#btnPesquisarAction" prefHeight="54.0" prefWidth="128.0" style="-fx-background-color: #007FFF; -fx-border-color: #1034A6; -fx-border-width: 3; -fx-background-radius: 6; -fx-border-radius: 6; -fx-background-insets: 1,5;" text="Filtrar ID" textFill="WHITE">
                     <font>
                         <Font name="Arial Bold" size="16.0" />
                     </font>
