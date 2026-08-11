@@ -16,6 +16,8 @@ import javafx.scene.input.MouseEvent;
 import java.util.ArrayList;
 
 import static com.template.util.DialogUtil.showConfirmation;
+import static com.template.validator.TimesValidator.validarExcluir;
+import static com.template.validator.TimesValidator.validarTime;
 
 public class MainController
 {
@@ -80,18 +82,21 @@ public class MainController
         String estado = txtEstado.getText();
         int anoFund = Integer.parseInt(txtFund.getText());
         int brasileiros = Integer.parseInt(txtBrasileiros.getText());
+        if(validarTime(nome, String.valueOf(anoFund), estado, String.valueOf(brasileiros))){
 
-        TimesDTO linhaTime = new TimesDTO();
-        linhaTime.setNome(nome);
-        linhaTime.setAnoFundacao(anoFund);
-        linhaTime.setEstado(estado);
-        linhaTime.setTitulosBrasileiros(brasileiros);
+            TimesDTO linhaTime = new TimesDTO();
+            linhaTime.setNome(nome);
+            linhaTime.setAnoFundacao(anoFund);
+            linhaTime.setEstado(estado);
+            linhaTime.setTitulosBrasileiros(brasileiros);
 
-        TimesDAO timeNovo = new TimesDAO();
-        timeNovo.cadastrarTime(linhaTime);
+            TimesDAO timeNovo = new TimesDAO();
+            timeNovo.cadastrarTime(linhaTime);
 
-        atualizarTabela();
-        limparCampos();
+            atualizarTabela();
+            limparCampos();
+
+            }
     }
 
     @FXML
@@ -123,7 +128,7 @@ public class MainController
         TimesDAO timeExcluir = new TimesDAO();
         timeExcluir.excluirTime(id);
 
-        if(showConfirmation("Você realmente deseja excluir?")){
+        if(showConfirmation("Você realmente deseja excluir?") && validarExcluir(String.valueOf(id))){
             atualizarTabela();
             limparCampos();
         }
