@@ -20,6 +20,14 @@ public class DialogUtil {
         alert.setContentText(mensagem);
         alert.showAndWait();
     }
+
+    public static void showError(String mensagem){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erro");
+        alert.setHeaderText(null);
+        alert.setContentText(mensagem);
+        alert.showAndWait();
+    }
 }
 
 

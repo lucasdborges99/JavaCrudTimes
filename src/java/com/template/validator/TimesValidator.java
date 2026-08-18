@@ -5,10 +5,38 @@ import com.template.util.DialogUtil;
 public class TimesValidator {
 
     public static boolean validarTime(String nome, String anoFund, String estado, String brasileiros) {
-        if (nome.isEmpty() || anoFund.isEmpty() || estado.isEmpty() || brasileiros.isEmpty()) {
-            DialogUtil.showWarning("Preencha todos os campos necessários para prosseguir");
+
+        CampoObrigatorioValidator nomeValidator =
+                new CampoObrigatorioValidator("Nome", nome);
+
+        CampoObrigatorioValidator estadoValidator =
+                new CampoObrigatorioValidator("Estado", estado);
+
+        if (!nomeValidator.validar(nome)) {
+            DialogUtil.showWarning(nomeValidator.getMensagemErro());
             return false;
         }
+
+        if (!estadoValidator.validar(estado)) {
+            DialogUtil.showWarning(estadoValidator.getMensagemErro());
+            return false;
+        }
+
+        AnoValidator anoValidator = new AnoValidator(anoFund);
+
+        if (!anoValidator.validar(anoFund)) {
+            DialogUtil.showWarning(anoValidator.getMensagemErro());
+            return false;
+        }
+
+        BrasileirosValidator brasileirosValidator =
+                new BrasileirosValidator(brasileiros);
+
+        if (!brasileirosValidator.validar(brasileiros)) {
+            DialogUtil.showWarning(brasileirosValidator.getMensagemErro());
+            return false;
+        }
+
         return true;
     }
 

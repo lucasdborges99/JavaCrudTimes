@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static com.template.util.DialogUtil.showError;
+
 public class TimesDAO {
 
     private static final Logger logger = Logger.getLogger(TimesDAO.class.getName());
@@ -30,7 +32,7 @@ public class TimesDAO {
 
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Erro ao cadastrar time", e);
-            throw new RuntimeException("Erro ao cadastrar time");
+            showError("Erro ao cadastrar time");
         }
     }
 
@@ -54,7 +56,7 @@ public class TimesDAO {
 
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Erro ao listar times", e);
-            throw new RuntimeException("Erro ao listar times");
+            showError("Erro ao listar times");
         }
 
         return lista;
@@ -76,7 +78,7 @@ public class TimesDAO {
 
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Erro ao alterar time", e);
-            throw new RuntimeException("Erro ao alterar time");
+            showError("Erro ao editar time");
         }
     }
 
@@ -91,7 +93,7 @@ public class TimesDAO {
 
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Erro ao excluir time", e);
-            throw new RuntimeException("Erro ao excluir time");
+            showError("Erro ao excluir time");
         }
     }
 }
