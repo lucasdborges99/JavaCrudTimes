@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import java.util.ArrayList;
+import com.template.service.TimesService;
 
 import static com.template.util.DialogUtil.showConfirmation;
 import static com.template.validator.TimesValidator.validarExcluir;
@@ -38,6 +39,7 @@ public class MainController
     @FXML private TableColumn<TimesDTO, Integer> colBrasileiros;
 
     private ObservableList<TimesDTO> ListaParaFiltrar = FXCollections.observableArrayList();
+    private final TimesService timesService = new TimesService();
 
     @FXML
     private void initialize()
@@ -55,9 +57,7 @@ public class MainController
     }
 
     private void atualizarTabela() {
-        TimesDAO listaDeTimesAgrupada = new TimesDAO();
-        ArrayList<TimesDTO> listaTimes = listaDeTimesAgrupada.listarTimes();
-
+        ArrayList<TimesDTO> listaTimes = timesService.listarTimes();
         ListaParaFiltrar.setAll(listaTimes);
         tblTimes.setItems(ListaParaFiltrar);
     }
@@ -80,61 +80,34 @@ public class MainController
     private void btnAdicionarAction(ActionEvent event) {
         String nome = txtNome.getText();
         String estado = txtEstado.getText();
-        int anoFund = Integer.parseInt(txtFund.getText());
-        int brasileiros = Integer.parseInt(txtBrasileiros.getText());
-        if(validarTime(nome, String.valueOf(anoFund), estado, String.valueOf(brasileiros))){
-
-            TimesDTO linhaTime = new TimesDTO();
-            linhaTime.setNome(nome);
-            linhaTime.setAnoFundacao(anoFund);
-            linhaTime.setEstado(estado);
-            linhaTime.setTitulosBrasileiros(brasileiros);
-
-            TimesDAO timeNovo = new TimesDAO();
-            timeNovo.cadastrarTime(linhaTime);
-
-            atualizarTabela();
-            limparCampos();
-
-            }
+        String anoFund = txtFund.getText();
+        String brasileiros = txtBrasileiros.getText();
+        timesService.cadastrarTime(nome, anoFund, estado, brasileiros);
+        atualizarTabela();
+        limparCampos();
     }
 
     @FXML
     private void btnEditarAction(ActionEvent event) {
-        int id = Integer.parseInt(txtId.getText());
-        int anoFund = Integer.parseInt(txtFund.getText());
-        int brasileiros = Integer.parseInt(txtBrasileiros.getText());
+        String id = txtId.getText();
         String nome = txtNome.getText();
         String estado = txtEstado.getText();
-
-        TimesDTO linhaTime = new TimesDTO();
-        linhaTime.setId(id);
-        linhaTime.setNome(nome);
-        linhaTime.setAnoFundacao(anoFund);
-        linhaTime.setEstado(estado);
-        linhaTime.setTitulosBrasileiros(brasileiros);
-
-        TimesDAO timeEditado = new TimesDAO();
-        timeEditado.alterarTime(linhaTime);
-
+        String anoFund = txtFund.getText();
+        String brasileiros = txtBrasileiros.getText();
+        timesService.alterarTime(id, nome, anoFund, estado, brasileiros);
         atualizarTabela();
         limparCampos();
     }
 
     @FXML
     private void btnExcluirAction(ActionEvent event) {
-        int id = Integer.parseInt(txtId.getText());
-
-        TimesDAO timeExcluir = new TimesDAO();
-        timeExcluir.excluirTime(id);
-
-        if(showConfirmation("Você realmente deseja excluir?") && validarExcluir(String.valueOf(id))){
-            atualizarTabela();
-            limparCampos();
-        }
-        else{
+        if (!showConfirmation("Você realmente deseja excluir?")) {
             return;
         }
+        String id = txtId.getText();
+        timesService.excluirTime(id);
+        atualizarTabela();
+        limparCampos();
     }
 
     @FXML
