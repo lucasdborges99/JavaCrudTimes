@@ -1,7 +1,7 @@
 package com.template.controller;
 
-import com.template.model.dao.TimesDAO;
 import com.template.model.dto.TimesDTO;
+import com.template.service.TimesService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -14,14 +14,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import java.util.ArrayList;
-import com.template.service.TimesService;
 
 import static com.template.util.DialogUtil.showConfirmation;
-import static com.template.validator.TimesValidator.validarExcluir;
 import static com.template.validator.TimesValidator.validarTime;
 
-public class MainController
-{
+public class MainController {
+
     @FXML private Button btnEditar;
     @FXML private Button btnAdicionar;
     @FXML private Button btnExcluir;
@@ -42,8 +40,7 @@ public class MainController
     private final TimesService timesService = new TimesService();
 
     @FXML
-    private void initialize()
-    {
+    private void initialize() {
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
         colFund.setCellValueFactory(new PropertyValueFactory<>("anoFundacao"));
@@ -52,8 +49,6 @@ public class MainController
 
         atualizarTabela();
         gerenciarBotoes(false);
-
-        System.out.println("FXML loaded successfully!");
     }
 
     private void atualizarTabela() {
@@ -82,9 +77,12 @@ public class MainController
         String estado = txtEstado.getText();
         String anoFund = txtFund.getText();
         String brasileiros = txtBrasileiros.getText();
-        timesService.cadastrarTime(nome, anoFund, estado, brasileiros);
-        atualizarTabela();
-        limparCampos();
+
+        if (validarTime(nome, anoFund, estado, brasileiros)) {
+            timesService.cadastrarTime(nome, anoFund, estado, brasileiros);
+            atualizarTabela();
+            limparCampos();
+        }
     }
 
     @FXML
@@ -94,9 +92,12 @@ public class MainController
         String estado = txtEstado.getText();
         String anoFund = txtFund.getText();
         String brasileiros = txtBrasileiros.getText();
-        timesService.alterarTime(id, nome, anoFund, estado, brasileiros);
-        atualizarTabela();
-        limparCampos();
+
+        if (validarTime(nome, anoFund, estado, brasileiros)) {
+            timesService.alterarTime(id, nome, anoFund, estado, brasileiros);
+            atualizarTabela();
+            limparCampos();
+        }
     }
 
     @FXML

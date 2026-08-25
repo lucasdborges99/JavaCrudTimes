@@ -1,48 +1,35 @@
 package com.template.validator;
 
 import com.template.util.DialogUtil;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TimesValidator {
 
     public static boolean validarTime(String nome, String anoFund, String estado, String brasileiros) {
+        List<Validator<String>> validadores = new ArrayList<>();
 
-        CampoObrigatorioValidator nomeValidator =
-                new CampoObrigatorioValidator("Nome", nome);
+        validadores.add(new CampoObrigatorioValidator("Nome", nome));
+        validadores.add(new CampoObrigatorioValidator("Estado", estado));
+        validadores.add(new CampoObrigatorioValidator("Ano de Fundação", anoFund));
+        validadores.add(new CampoObrigatorioValidator("Títulos Brasileiros", brasileiros));
 
-        CampoObrigatorioValidator estadoValidator =
-                new CampoObrigatorioValidator("Estado", estado);
+        validadores.add(new AnoValidator(anoFund));
+        validadores.add(new BrasileirosValidator(brasileiros));
 
-        if (!nomeValidator.validar(nome)) {
-            DialogUtil.showWarning(nomeValidator.getMensagemErro());
-            return false;
-        }
-
-        if (!estadoValidator.validar(estado)) {
-            DialogUtil.showWarning(estadoValidator.getMensagemErro());
-            return false;
-        }
-
-        AnoValidator anoValidator = new AnoValidator(anoFund);
-
-        if (!anoValidator.validar(anoFund)) {
-            DialogUtil.showWarning(anoValidator.getMensagemErro());
-            return false;
-        }
-
-        BrasileirosValidator brasileirosValidator =
-                new BrasileirosValidator(brasileiros);
-
-        if (!brasileirosValidator.validar(brasileiros)) {
-            DialogUtil.showWarning(brasileirosValidator.getMensagemErro());
-            return false;
+        for (Validator<String> validador : validadores) {
+            if (!validador.validar(validador.getValor())) {
+                DialogUtil.showWarning(validador.getMensagemErro());
+                return false;
+            }
         }
 
         return true;
     }
 
     public static boolean validarExcluir(String id) {
-        if (id.isEmpty()) {
-            DialogUtil.showWarning("Selecione um time na tabela para excluir");
+        if (id == null || id.trim().isEmpty()) {
+            DialogUtil.showWarning("Selecione um time na tabela para excluir.");
             return false;
         }
         return true;
